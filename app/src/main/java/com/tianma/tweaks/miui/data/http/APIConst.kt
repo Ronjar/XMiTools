@@ -10,4 +10,6 @@ object APIConst {
      * 诗词API: https://www.jinrishici.com/doc/
      */
     const val POEM_BASE_URL = "https://v1.jinrishici.com/"
+
+    const val VVS_BASE_URL = "https://www3.vvs.de/mngvvs/XML_TRIP_REQUEST2"
 }

@@ -87,3 +87,5 @@ fastlane/readme.md
 
 # vscode
 .vscode/*
+app/src/main/java/com/tianma/tweaks/miui/data/http/service/DBService.kt
+app/src/main/java/com/tianma/tweaks/miui/data/http/service/DBService.kt

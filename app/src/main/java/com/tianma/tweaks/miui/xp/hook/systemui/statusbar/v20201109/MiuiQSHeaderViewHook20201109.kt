@@ -1,13 +1,17 @@
 package com.tianma.tweaks.miui.xp.hook.systemui.statusbar.v20201109
 
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.graphics.Color
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.tianma.tweaks.miui.BuildConfig
 import com.tianma.tweaks.miui.R
 import com.tianma.tweaks.miui.data.sp.XPrefContainer
@@ -126,15 +130,40 @@ class MiuiQSHeaderViewHook20201109(classLoader: ClassLoader?, appInfo: AppInfo?)
                     mWeatherInfoTextView = TextView(miuiQSHeaderView.context).also {
                         it.includeFontPadding = false
                         it.gravity = Gravity.CENTER
-                        it.setTextColor(mWeatherTextColor)
+                        it.setTextColor(Color.GREEN)
                         it.textSize = mWeatherTextSize
                         it.layoutParams = weatherInfoLp
+                        it.setOnClickListener { openConfigurator() }
+                        it.setOnLongClickListener { refreshData() }
                         it.id = R.id.weather_info_text_view
                     }
 
                     miuiQSHeaderView.addView(mWeatherInfoTextView)
                 }
             })
+    }
+
+    fun openConfigurator() {
+        //Log.i("Roebin", "We almost there")
+        //Toast.makeText(mModContext, "Test1", Toast.LENGTH_LONG).show()
+        //val it =
+        mAppContext?.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+        val manager = mAppContext!!.packageManager
+        try {
+            val i = manager.getLaunchIntentForPackage("com.ronjar.paraparia")
+            i.addCategory(Intent.CATEGORY_LAUNCHER)
+            Toast.makeText(mAppContext, i.getPackage(), Toast.LENGTH_LONG).show()
+            mAppContext!!.startActivity(i)
+        } catch (e: ActivityNotFoundException) {
+            e.printStackTrace()
+            Toast.makeText(mAppContext, "Sad test", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun refreshData(): Boolean{
+        D
+        Toast.makeText(mAppContext, "Refreshing", Toast.LENGTH_LONG).show()
+        return true
     }
 
     // MiuiQSHeaderView#onAttachedToWindow()
