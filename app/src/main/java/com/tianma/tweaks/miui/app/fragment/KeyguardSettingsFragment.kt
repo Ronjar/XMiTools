@@ -35,12 +35,12 @@ class KeyguardSettingsFragment(title: CharSequence? = "") : BaseSettingsFragment
 
         val oneSentencePref = findPreference<EditTextPreference>(PrefConst.ONE_SENTENCE_TEXT_SIZE)
         oneSentencePref?.let {
-            showOneSentenceTextSize(it, it.text)
+            showOneSentenceTextSize(it, it.text?:"Text was null")
         }
     }
 
-    override fun onPreferenceClick(preference: Preference?): Boolean {
-        val key = preference?.key
+    override fun onPreferenceClick(preference: Preference): Boolean {
+        val key = preference.key
         if (key == PrefConst.ONE_SENTENCE_SETTINGS) {
             onOneSentenceSettingsClicked()
         } else {
@@ -49,7 +49,7 @@ class KeyguardSettingsFragment(title: CharSequence? = "") : BaseSettingsFragment
         return true
     }
 
-    override fun onPreferenceChange(preference: Preference?, newValue: Any?): Boolean {
+    override fun onPreferenceChange(preference: Preference, newValue: Any?): Boolean {
         val key = preference?.key
         if (PrefConst.ONE_SENTENCE_TEXT_SIZE == key) {
             val value = newValue as String?

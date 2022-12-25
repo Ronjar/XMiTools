@@ -25,19 +25,19 @@ class StatusBarSettingsFragment(title: CharSequence? = "") : BaseSettingsFragmen
 
         val timeFormatPref = findPreference<Preference>(PrefConst.STATUS_BAR_CLOCK_FORMAT)
         timeFormatPref?.let {
-            val timeFormat = sp.getString(PrefConst.STATUS_BAR_CLOCK_FORMAT, PrefConst.STATUS_BAR_CLOCK_FORMAT_DEFAULT)
+            val timeFormat = sp?.getString(PrefConst.STATUS_BAR_CLOCK_FORMAT, PrefConst.STATUS_BAR_CLOCK_FORMAT_DEFAULT)
             showStatusBarClockFormat(timeFormatPref, timeFormat)
         }
 
         val networkTypePref = findPreference<Preference>(PrefConst.CUSTOM_MOBILE_NETWORK_TYPE)
         networkTypePref?.let {
-            val networkType = sp.getString(PrefConst.CUSTOM_MOBILE_NETWORK_TYPE, PrefConst.CUSTOM_MOBILE_NETWORK_TYPE_DEFAULT)
+            val networkType = sp?.getString(PrefConst.CUSTOM_MOBILE_NETWORK_TYPE, PrefConst.CUSTOM_MOBILE_NETWORK_TYPE_DEFAULT)
             showCustomMobileNetworkType(networkTypePref, networkType)
         }
     }
 
-    override fun onPreferenceChange(preference: Preference?, newValue: Any?): Boolean {
-        val key = preference?.key
+    override fun onPreferenceChange(preference: Preference, newValue: Any?): Boolean {
+        val key = preference.key
         when {
             PrefConst.STATUS_BAR_CLOCK_FORMAT == key -> {
                 showStatusBarClockFormat(preference, newValue as String?)

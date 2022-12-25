@@ -20,6 +20,8 @@ import com.tianma.tweaks.miui.utils.get
 import com.tianma.tweaks.miui.utils.logD
 import com.tianma.tweaks.miui.xp.hook.BaseSubHook
 import com.tianma.tweaks.miui.xp.hook.systemui.helper.ResHelpers
+import com.tianma.tweaks.miui.xp.hook.systemui.vvs.VVSMonitor
+import com.tianma.tweaks.miui.xp.hook.systemui.vvs.VVSObserver
 import com.tianma.tweaks.miui.xp.hook.systemui.weather.WeatherMonitor
 import com.tianma.tweaks.miui.xp.hook.systemui.weather.WeatherObserver
 import com.tianma.tweaks.miui.xp.utils.appinfo.AppInfo
@@ -30,7 +32,7 @@ import com.tianma.tweaks.miui.xp.wrapper.XposedWrapper
  * 下拉状态栏头部View Hook（下拉状态栏显示天气等)，适用版本 MiuiSystemUI(versionCode>=202011090)
  */
 class MiuiQSHeaderViewHook20201109(classLoader: ClassLoader?, appInfo: AppInfo?) :
-    BaseSubHook(classLoader, appInfo), WeatherObserver {
+    BaseSubHook(classLoader, appInfo), WeatherObserver, VVSObserver {
 
     private var mMiuiQSHeaderViewClass: Class<*>? = null
     private var mMiuiHeaderViewClass: Class<*>? = null
@@ -43,6 +45,8 @@ class MiuiQSHeaderViewHook20201109(classLoader: ClassLoader?, appInfo: AppInfo?)
     private val mWeatherEnabled: Boolean = XPrefContainer.isDropdownStatusBarWeatherEnabled
     private var mWeatherTextColor = 0
     private var mWeatherTextSize = 0f
+
+    private lateinit var mVVSMonitor: VVSMonitor
 
     companion object {
         // MIUI quick settings header view
@@ -74,8 +78,8 @@ class MiuiQSHeaderViewHook20201109(classLoader: ClassLoader?, appInfo: AppInfo?)
 
             mMiuiHeaderViewClass = XposedWrapper.findClass(CLASS_MIUI_HEADER_VIEW, mClassLoader)
             if (mMiuiHeaderViewClass != null) {
-                hookShowUnimportantNotifications()
-                hookShowNotificationsAnim()
+                //hookShowUnimportantNotifications()
+                //hookShowNotificationsAnim()
             }
         }
     }
@@ -130,7 +134,7 @@ class MiuiQSHeaderViewHook20201109(classLoader: ClassLoader?, appInfo: AppInfo?)
                     mWeatherInfoTextView = TextView(miuiQSHeaderView.context).also {
                         it.includeFontPadding = false
                         it.gravity = Gravity.CENTER
-                        it.setTextColor(Color.GREEN)
+                        it.setTextColor(mWeatherTextColor)
                         it.textSize = mWeatherTextSize
                         it.layoutParams = weatherInfoLp
                         it.setOnClickListener { openConfigurator() }
@@ -151,8 +155,8 @@ class MiuiQSHeaderViewHook20201109(classLoader: ClassLoader?, appInfo: AppInfo?)
         val manager = mAppContext!!.packageManager
         try {
             val i = manager.getLaunchIntentForPackage("com.ronjar.paraparia")
-            i.addCategory(Intent.CATEGORY_LAUNCHER)
-            Toast.makeText(mAppContext, i.getPackage(), Toast.LENGTH_LONG).show()
+            i?.addCategory(Intent.CATEGORY_LAUNCHER)
+            Toast.makeText(mAppContext, i?.getPackage(), Toast.LENGTH_LONG).show()
             mAppContext!!.startActivity(i)
         } catch (e: ActivityNotFoundException) {
             e.printStackTrace()
@@ -161,7 +165,7 @@ class MiuiQSHeaderViewHook20201109(classLoader: ClassLoader?, appInfo: AppInfo?)
     }
 
     fun refreshData(): Boolean{
-        D
+        mVVSMonitor.Refresh()
         Toast.makeText(mAppContext, "Refreshing", Toast.LENGTH_LONG).show()
         return true
     }
@@ -175,6 +179,9 @@ class MiuiQSHeaderViewHook20201109(classLoader: ClassLoader?, appInfo: AppInfo?)
                     val context = mAppContext ?: return
                     WeatherMonitor.get(context)
                         .registerObserver(this@MiuiQSHeaderViewHook20201109)
+                    mVVSMonitor = VVSMonitor(context).also {
+                        it.addRefreshListener(this@MiuiQSHeaderViewHook20201109)
+                    }
                 }
             })
     }
@@ -250,5 +257,9 @@ class MiuiQSHeaderViewHook20201109(classLoader: ClassLoader?, appInfo: AppInfo?)
     override fun onWeatherChanged(newWeatherInfo: String) {
         logD("onWeatherChanged: %s", newWeatherInfo)
         mWeatherInfoTextView?.text = newWeatherInfo
+    }
+
+    override fun onTripChanged(newInfo: String) {
+        mWeatherInfoTextView?.text = newInfo
     }
 }

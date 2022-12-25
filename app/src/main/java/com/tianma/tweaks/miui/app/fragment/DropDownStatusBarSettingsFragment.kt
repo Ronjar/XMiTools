@@ -31,12 +31,12 @@ class DropDownStatusBarSettingsFragment(title: CharSequence? = ""): BaseSettings
 
         val weatherTextSizePref = findPreference<EditTextPreference>(PrefConst.DROPDOWN_STATUS_BAR_WEATHER_TEXT_SIZE)
         weatherTextSizePref?.let {
-            showWeatherTextSize(it, it.text)
+            showWeatherTextSize(it, it.text?:"Text was null")
         }
     }
 
-    override fun onPreferenceChange(preference: Preference?, newValue: Any?): Boolean {
-        val key = preference?.key
+    override fun onPreferenceChange(preference: Preference, newValue: Any?): Boolean {
+        val key = preference.key
         if (PrefConst.DROPDOWN_STATUS_BAR_WEATHER_TEXT_SIZE == key) {
             val value = newValue as String?
             if (value.isNullOrEmpty()) {

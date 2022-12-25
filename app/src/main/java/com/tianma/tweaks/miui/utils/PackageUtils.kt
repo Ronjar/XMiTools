@@ -35,7 +35,7 @@ object PackageUtils {
 
     @JvmStatic
     @PackageState
-    fun checkPackageState(context: Context, packageName: String?): Int {
+    fun checkPackageState(context: Context, packageName: String): Int {
         return if (isPackageEnabled(context, packageName)) {
             // installed & enabled
             PACKAGE_ENABLED
@@ -53,7 +53,7 @@ object PackageUtils {
     /**
      * 指定的包名对应的App是否已安装
      */
-    fun isPackageInstalled(context: Context, packageName: String?): Boolean {
+    fun isPackageInstalled(context: Context, packageName: String): Boolean {
         val pm = context.packageManager
         try {
             val packageInfo = pm.getPackageInfo(packageName, 0)
@@ -67,7 +67,7 @@ object PackageUtils {
     /**
      * 对应包名的应用是否已启用
      */
-    fun isPackageEnabled(context: Context, packageName: String?): Boolean {
+    fun isPackageEnabled(context: Context, packageName: String): Boolean {
         val pm = context.packageManager
         try {
             val appInfo = pm.getApplicationInfo(packageName, 0)

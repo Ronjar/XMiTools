@@ -38,8 +38,8 @@ class GeneralSettingsFragment(title: CharSequence? = "") : BaseSettingsFragment(
         showVersionInfo()
     }
 
-    override fun onPreferenceClick(preference: Preference?): Boolean {
-        when (preference?.key) {
+    override fun onPreferenceClick(preference: Preference): Boolean {
+        when (preference.key) {
             PrefConst.SOURCE_CODE -> {
                 showSourceCode()
             }
@@ -56,8 +56,8 @@ class GeneralSettingsFragment(title: CharSequence? = "") : BaseSettingsFragment(
         return true
     }
 
-    override fun onPreferenceChange(preference: Preference?, newValue: Any): Boolean {
-        val key = preference?.key
+    override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean {
+        val key = preference.key
         if (PrefConst.HIDE_LAUNCHER_ICON == key) {
             hideOrShowLauncherIcon(newValue as Boolean)
         } else {
