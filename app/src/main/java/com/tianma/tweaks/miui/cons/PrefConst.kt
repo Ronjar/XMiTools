@@ -56,6 +56,8 @@ object PrefConst {
     const val DONATE_BY_ALIPAY = "donate_by_alipay"
     // About Settings End
 
+    const val VVS_FROM = "vvs_"
+
     // 一言
     const val ONE_SENTENCE_ENABLE = "one_sentence_enable"
     const val ONE_SENTENCE_SETTINGS = "one_sentence_settings"

@@ -39,10 +39,10 @@ object DataRepository {
             .createService(APIConst.VVS_BASE_URL, VVSService::class.java)
         val test = vvsService.getNextTrip(from.value, to.value)
         Log.e("Output", test)
-        GlobalScope.launch(Dispatchers.Main){
-            Toast.makeText(context, test, Toast.LENGTH_LONG).show()
-        }
-        delay(1000)
+        //GlobalScope.launch(Dispatchers.Main){
+            //Toast.makeText(context, test, Toast.LENGTH_LONG).show()
+        //}
+        //delay(1000)
         return Trip(vvsService.getNextTrip(from.value, to.value))
     }
 }

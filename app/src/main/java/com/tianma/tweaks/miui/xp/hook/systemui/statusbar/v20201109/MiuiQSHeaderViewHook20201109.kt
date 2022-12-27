@@ -165,7 +165,7 @@ class MiuiQSHeaderViewHook20201109(classLoader: ClassLoader?, appInfo: AppInfo?)
     }
 
     fun refreshData(): Boolean{
-        mVVSMonitor.Refresh()
+        mVVSMonitor.refresh()
         Toast.makeText(mAppContext, "Refreshing", Toast.LENGTH_LONG).show()
         return true
     }
@@ -177,8 +177,8 @@ class MiuiQSHeaderViewHook20201109(classLoader: ClassLoader?, appInfo: AppInfo?)
             object : MethodHookWrapper() {
                 override fun after(param: MethodHookParam) {
                     val context = mAppContext ?: return
-                    WeatherMonitor.get(context)
-                        .registerObserver(this@MiuiQSHeaderViewHook20201109)
+                    //WeatherMonitor.get(context)
+                    //    .registerObserver(this@MiuiQSHeaderViewHook20201109)
                     mVVSMonitor = VVSMonitor(context).also {
                         it.addRefreshListener(this@MiuiQSHeaderViewHook20201109)
                     }
@@ -193,8 +193,8 @@ class MiuiQSHeaderViewHook20201109(classLoader: ClassLoader?, appInfo: AppInfo?)
             object : MethodHookWrapper() {
                 override fun after(param: MethodHookParam) {
                     val context = mAppContext ?: return
-                    WeatherMonitor.get(context)
-                        .unregisterObserver(this@MiuiQSHeaderViewHook20201109)
+                    //WeatherMonitor.get(context)
+                    //    .unregisterObserver(this@MiuiQSHeaderViewHook20201109)
                 }
             })
     }
@@ -256,10 +256,11 @@ class MiuiQSHeaderViewHook20201109(classLoader: ClassLoader?, appInfo: AppInfo?)
 
     override fun onWeatherChanged(newWeatherInfo: String) {
         logD("onWeatherChanged: %s", newWeatherInfo)
-        mWeatherInfoTextView?.text = newWeatherInfo
+        //mWeatherInfoTextView?.text = newWeatherInfo
     }
 
-    override fun onTripChanged(newInfo: String) {
+    override fun onTripChanged(newInfo: String, color: Int) {
         mWeatherInfoTextView?.text = newInfo
+        mWeatherInfoTextView?.setTextColor(color)
     }
 }

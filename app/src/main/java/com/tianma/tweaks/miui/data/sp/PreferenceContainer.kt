@@ -35,6 +35,8 @@ object PreferenceContainer {
      */
     var showOnePoemAuthor by pref(PrefConst.SHOW_POEM_AUTHOR, false)
 
+
+
     private fun <T> pref(key: String, defaultValue: T): PreferenceDelegate<T> {
         return PreferenceDelegate(
             key,

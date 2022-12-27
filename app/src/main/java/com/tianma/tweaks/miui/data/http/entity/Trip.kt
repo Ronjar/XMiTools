@@ -1,35 +1,37 @@
 package com.tianma.tweaks.miui.data.http.entity
 
-import android.util.Log
-import org.json.JSONArray
 import org.json.JSONObject
 import java.time.Duration
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
-class Trip(private var jsonText: String) {
+class Trip(jsonText: String) {
 
-    private val json: JSONObject
+    val json: JSONObject?
 
     init {
-        Log.wtf("OUTPUT", jsonText)
-        //json = JSONObject()
-        Log.e("com.tianma.tweaks.miui", jsonText)
-        json = JSONArray(jsonText).getJSONArray("journeys").getJSONObject(0).getJSONObject("legs")
+        json = JSONObject(jsonText).getJSONArray("journeys").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONObject("origin")
     }
 
-    fun getScheduleTime(): LocalDateTime{
-        val time = json/*.getJSONArray("journeys").getJSONObject(0).getJSONObject("legs")*/.getString("departureTimePlanned")
-        return LocalDateTime.parse(time)
+    fun getScheduleTime(): LocalDateTime? {
+        val timeString = json?.getString("departureTimePlanned")
+        return timeString?.toLocalDateTime()?.plusHours(1)
     }
-    fun getRealTime(): LocalDateTime{
-        val time = json/*.getJSONArray("journeys").getJSONObject(0).getJSONObject("legs")*/.getString("departureTimeEstimated")
-        return LocalDateTime.parse(time)
+    fun getRealTime(): LocalDateTime? {
+        val timeString = json?.getString("departureTimeEstimated")
+        return timeString?.toLocalDateTime()?.plusHours(1)
     }
     fun getOffset() = Duration.between(getRealTime(), getScheduleTime())
+
+    val isOnTime = getOffset().isZero
 
     enum class STATION(val value: String){
         KORNWESTHEIM("5001402"),
         HAUPTBAHNHOF("5006115"),
         UNIVERSITAET("5006008")
+    }
+
+    private fun String.toLocalDateTime(): LocalDateTime {
+        return LocalDateTime.parse(this, DateTimeFormatter.ISO_DATE_TIME)
     }
 }
