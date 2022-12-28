@@ -37,7 +37,7 @@
         android:title="@string/pref_dropdown_status_bar_weather_text_color_title" />
 
     <EditTextPreference
-        android:defaultValue="14"
+        android:defaultValue="20"
         android:dependency="@string/pref_dropdown_status_bar_weather_enable"
         android:key="@string/pref_dropdown_status_bar_weather_text_size"
         android:title="@string/pref_dropdown_status_bar_weather_text_size_title" />

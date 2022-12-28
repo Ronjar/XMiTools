@@ -5,13 +5,18 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.graphics.Color
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.LinearLayoutCompat.OrientationMode
+import androidx.core.content.ContextCompat
+import androidx.core.view.marginRight
+import androidx.viewpager2.widget.ViewPager2.Orientation
 import com.tianma.tweaks.miui.BuildConfig
 import com.tianma.tweaks.miui.R
 import com.tianma.tweaks.miui.data.sp.XPrefContainer
@@ -22,7 +27,6 @@ import com.tianma.tweaks.miui.xp.hook.BaseSubHook
 import com.tianma.tweaks.miui.xp.hook.systemui.helper.ResHelpers
 import com.tianma.tweaks.miui.xp.hook.systemui.vvs.VVSMonitor
 import com.tianma.tweaks.miui.xp.hook.systemui.vvs.VVSObserver
-import com.tianma.tweaks.miui.xp.hook.systemui.weather.WeatherMonitor
 import com.tianma.tweaks.miui.xp.hook.systemui.weather.WeatherObserver
 import com.tianma.tweaks.miui.xp.utils.appinfo.AppInfo
 import com.tianma.tweaks.miui.xp.wrapper.MethodHookWrapper
@@ -41,10 +45,11 @@ class MiuiQSHeaderViewHook20201109(classLoader: ClassLoader?, appInfo: AppInfo?)
     private var mAppContext: Context? = null
 
     private var mWeatherInfoTextView: TextView? = null
+    private var mWeatherInfoIcon: ImageView? = null
 
     private val mWeatherEnabled: Boolean = XPrefContainer.isDropdownStatusBarWeatherEnabled
     private var mWeatherTextColor = 0
-    private var mWeatherTextSize = 0f
+    private var mWeatherTextSize = 20f
 
     private lateinit var mVVSMonitor: VVSMonitor
 
@@ -131,18 +136,32 @@ class MiuiQSHeaderViewHook20201109(classLoader: ClassLoader?, appInfo: AppInfo?)
                             ResolutionUtils.dp2px(miuiQSHeaderView.context, 3f).toInt()
                     }
 
+                    mWeatherInfoIcon = ImageView(miuiQSHeaderView.context).also {
+                        it.background = mAppContext?.let { it1 -> ContextCompat.getDrawable(it1, R.drawable.ic_train) }
+                        it.setPadding(0, 0, 20, 0)
+                    }
+
                     mWeatherInfoTextView = TextView(miuiQSHeaderView.context).also {
+                        it.text = "Uhrzeit"
                         it.includeFontPadding = false
                         it.gravity = Gravity.CENTER
                         it.setTextColor(mWeatherTextColor)
+                        it.setPadding(10,0,0,0)
                         it.textSize = mWeatherTextSize
-                        it.layoutParams = weatherInfoLp
-                        it.setOnClickListener { openConfigurator() }
-                        it.setOnLongClickListener { refreshData() }
-                        it.id = R.id.weather_info_text_view
+                        //it.layoutParams = weatherInfoLp
                     }
 
-                    miuiQSHeaderView.addView(mWeatherInfoTextView)
+                    val ll = LinearLayout(miuiQSHeaderView.context).also {
+                        it.orientation = LinearLayout.HORIZONTAL
+                        it.layoutParams = weatherInfoLp
+                        it.addView(mWeatherInfoIcon)
+                        it.addView(mWeatherInfoTextView)
+                        it.gravity = Gravity.CENTER
+                        it.id = R.id.weather_info_text_view
+                        it.setOnClickListener { openConfigurator() }
+                        it.setOnLongClickListener { refreshData() }
+                    }
+                    miuiQSHeaderView.addView(ll)
                 }
             })
     }
@@ -259,8 +278,9 @@ class MiuiQSHeaderViewHook20201109(classLoader: ClassLoader?, appInfo: AppInfo?)
         //mWeatherInfoTextView?.text = newWeatherInfo
     }
 
-    override fun onTripChanged(newInfo: String, color: Int) {
+    override fun onTripChanged(newInfo: String, color: Int, vehicle: Int) {
         mWeatherInfoTextView?.text = newInfo
         mWeatherInfoTextView?.setTextColor(color)
+        mAppContext?.let { mWeatherInfoIcon?.background = ContextCompat.getDrawable(it, vehicle) }
     }
 }

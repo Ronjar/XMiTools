@@ -14,14 +14,14 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.JsonSyntaxException
-import com.tianma.tweaks.miui.databinding.DialogVvsOptionsBinding
+//import com.tianma.tweaks.miui.databinding.DialogVvsOptionsBinding
 import kotlinx.coroutines.*
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.util.*
 
 class VVSSettingsActivity : AppCompatActivity() {
-    private var _binding: DialogVvsOptionsBinding? = null
+/*    private var _binding: DialogVvsOptionsBinding? = null
     val binding get() = _binding!!
 
 
@@ -134,5 +134,5 @@ class VVSSettingsActivity : AppCompatActivity() {
             return@CoroutineExceptionHandler
         }
         throwable.let { Snackbar.make(binding.root, Retrofitter.decodeException(it), Snackbar.LENGTH_LONG).show() }
-    }
+    }*/
 }

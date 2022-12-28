@@ -1,0 +1,17 @@
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:name="bus"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <group
+        android:name="group"
+        android:translateX="1"
+        android:translateY="2">
+        <path
+            android:name="letters"
+            android:pathData="M 4 6 L 6 6 C 6.5 6 8 6 8 8 C 8 9 7 9.5 7 9.5 C 7 9.5 8 10 8 11 C 8 13 6.516 12.989 6 13 L 4 13 L 4 6 Z M 5 9 L 6 9 C 6 9 7 9 7 8 C 7 7 6 7 6 7 L 5 7 L 5 9 Z M 5 12 L 6 12 C 6 12 7 12 7 11 C 7 10 6 10 6 10 L 5 10 L 5 12 Z M 13 11 C 13 13 11 13 11 13 C 11 13 9 13 9 11 L 9 6 L 10 6 L 10 11 C 10 12 11 12 11 12 C 11 12 12 12 12 11 L 12 6 L 13 6 L 13 11 Z M 17.943 8.031 L 16.793 8.031 L 16.793 7.809 C 16.793 7.059 15.848 6.637 15.357 7.254 C 14.901 7.826 15.277 8.585 15.858 8.785 L 16.737 9.084 C 18.06 9.519 18.434 11.507 17.423 12.494 C 16.413 13.478 14 12.991 14 11.353 L 14 10.986 L 15.149 10.986 L 15.149 11.294 C 15.149 12.102 16.329 12.236 16.699 11.651 C 17.087 11.037 16.733 10.151 16.13 9.932 L 15.308 9.642 C 14.018 9.19 13.555 7.438 14.635 6.464 C 15.606 5.588 17.944 5.949 17.944 7.546 L 17.943 8.031 L 17.943 8.031 Z M 0 9 L 0 11 L 5 20 L 17 20 L 22 11 L 22 9 L 17 0 L 5 0 L 0 9 Z"
+            android:fillColor="#c31924"/>
+    </group>
+</vector>

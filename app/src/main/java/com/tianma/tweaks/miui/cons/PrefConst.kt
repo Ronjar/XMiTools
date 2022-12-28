@@ -40,7 +40,7 @@ object PrefConst {
     const val DROPDOWN_STATUS_BAR_WEATHER_ENABLE = "dropdown_status_bar_weather_enable"
     const val DROPDOWN_STATUS_BAR_WEATHER_TEXT_COLOR = "dropdown_status_bar_weather_text_color"
     const val DROPDOWN_STATUS_BAR_WEATHER_TEXT_SIZE = "dropdown_status_bar_weather_text_size"
-    const val DROPDOWN_STATUS_BAR_WEATHER_TEXT_SIZE_DEFAULT = "14"
+    const val DROPDOWN_STATUS_BAR_WEATHER_TEXT_SIZE_DEFAULT = "20"
     // Dropdown StatusBar Settings End
 
     // Keyguard Settings
@@ -56,7 +56,8 @@ object PrefConst {
     const val DONATE_BY_ALIPAY = "donate_by_alipay"
     // About Settings End
 
-    const val VVS_FROM = "vvs_"
+    const val VVS_FROM = "vvs_origin"
+    const val VVS_TO = "vvs_destination"
 
     // 一言
     const val ONE_SENTENCE_ENABLE = "one_sentence_enable"

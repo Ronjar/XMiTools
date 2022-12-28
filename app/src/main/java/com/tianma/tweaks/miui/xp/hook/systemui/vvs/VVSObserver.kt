@@ -1,7 +1,7 @@
 package com.tianma.tweaks.miui.xp.hook.systemui.vvs
 
-import android.graphics.Color
+import com.tianma.tweaks.miui.data.http.entity.Trip
 
 public interface VVSObserver {
-    fun onTripChanged(newInfo: String, color: Int)
+    fun onTripChanged(newInfo: String, color: Int, vehicle: Int)
 }
