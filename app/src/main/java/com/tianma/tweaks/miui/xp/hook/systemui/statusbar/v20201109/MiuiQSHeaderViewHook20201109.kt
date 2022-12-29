@@ -1,5 +1,6 @@
 package com.tianma.tweaks.miui.xp.hook.systemui.statusbar.v20201109
 
+import android.app.PendingIntent
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -19,6 +20,7 @@ import androidx.core.view.marginRight
 import androidx.viewpager2.widget.ViewPager2.Orientation
 import com.tianma.tweaks.miui.BuildConfig
 import com.tianma.tweaks.miui.R
+import com.tianma.tweaks.miui.app.VVSSettingsActivity
 import com.tianma.tweaks.miui.data.sp.XPrefContainer
 import com.tianma.tweaks.miui.utils.ResolutionUtils
 import com.tianma.tweaks.miui.utils.get
@@ -167,11 +169,11 @@ class MiuiQSHeaderViewHook20201109(classLoader: ClassLoader?, appInfo: AppInfo?)
     }
 
     fun openConfigurator() {
-        //Log.i("Roebin", "We almost there")
-        //Toast.makeText(mModContext, "Test1", Toast.LENGTH_LONG).show()
-        //val it =
+        val notifyIntent = Intent(mAppContext, VVSSettingsActivity::class.java)
+        notifyIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         mAppContext?.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-        val manager = mAppContext!!.packageManager
+        mAppContext!!.startActivity(notifyIntent)
+        /*val manager = mAppContext!!.packageManager
         try {
             val i = manager.getLaunchIntentForPackage("com.ronjar.paraparia")
             i?.addCategory(Intent.CATEGORY_LAUNCHER)
@@ -180,7 +182,7 @@ class MiuiQSHeaderViewHook20201109(classLoader: ClassLoader?, appInfo: AppInfo?)
         } catch (e: ActivityNotFoundException) {
             e.printStackTrace()
             Toast.makeText(mAppContext, "Sad test", Toast.LENGTH_LONG).show()
-        }
+        }*/
     }
 
     fun refreshData(): Boolean{
