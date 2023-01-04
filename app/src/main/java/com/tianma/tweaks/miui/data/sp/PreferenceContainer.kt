@@ -35,6 +35,9 @@ object PreferenceContainer {
      */
     var showOnePoemAuthor by pref(PrefConst.SHOW_POEM_AUTHOR, false)
 
+    var vvsOrigin by pref(PrefConst.VVS_FROM, "")
+    var vvsDestination by pref(PrefConst.VVS_TO, "")
+
 
 
     private fun <T> pref(key: String, defaultValue: T): PreferenceDelegate<T> {

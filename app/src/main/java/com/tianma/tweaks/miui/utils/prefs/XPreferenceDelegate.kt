@@ -22,12 +22,10 @@ class XPreferenceDelegate<T>(
 ) : ReadWriteProperty<Any?, T> {
 
     private val sharedPrefs: XSharedPreferences by lazy {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { // Android 7.0+
-            val prefFile = File("/data/user_de/0/${packageName}/shared_prefs/${prefFileName}.xml")
-            XSharedPreferences(prefFile)
-        } else {
-            XSharedPreferences(packageName, prefFileName)
-        }.also { xsp ->
+        // Android 7.0+
+        val prefFile = File("/data/user_de/0/${packageName}/shared_prefs/${prefFileName}.xml")
+        XSharedPreferences(prefFile)
+                .also { xsp ->
             try {
                 xsp.makeWorldReadable()
             } catch (t: Throwable) {
